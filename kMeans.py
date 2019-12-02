@@ -20,29 +20,46 @@ dataLength = data.shape[0]
 
 poison = True
 
-#run the kMeans algorithm with different values for k (eg. k = 2-10)
+
+def euclidDistance(x1, y1, x2, y2):
+	return math.sqrt((x2-x1)**2 + (y2-y1)**2)
+
+
+# run the kMeans algorithm with different values for k (eg. k = 2-10)
 while kClusters > 1:
-	#grab random data points for centroid of  each cluster
+	# grab random data points for centroid of  each cluster
 	randomStarts = 10
-	#maxIter = 5000
+	# maxIter = 5000
 	poison = True	
-	initCenter = np.random.randint(low = 0, high = dataLength, size =(randomStarts, kClusters))
+	initialCentroids = np.random.randint(low=0, high=dataLength,
+										 size=(randomStarts, kClusters))
 	print("kClusters: ", kClusters)	
 
-	#run 10 times with random initial centroids. 
+	# run 10 times with random initial centroids.
 	while randomStarts > 0:
-		centroids = initCenter[randomStarts - 1]
+		centroidIndices = initialCentroids[randomStarts - 1]
+		centroids = []
+		for index in centroidIndices:
+			centroids.append(data[index])
+		# List of minimum centroids for each datum (datum index -> centroid index)
+		distances = []
+		for dataindex, datum in enumerate(data):
+			centdists = []
+			for centroidindex, centroid in enumerate(centroids):
+				centdists.append(euclidDistance(datum[0], datum[1], centroid[0], centroid[1]))
+			minindex = centdists.index(min(centdists))
+			distances.append(centdists)
 
-		#run algorithm until the centroids don't change or
-		#the max number of iterations has been spent
-		#while isClustering(centroids, prevCentroids, iteration):
+		# run algorithm until the centroids don't change or
+		# the max number of iterations has been spent
+		# while isClustering(centroids, prevCentroids, iteration):
 		while poison:
 			poison = False
-			#assignment = np.zeros(data.shape[0])
-			#for row in data:
-				#assignment[row] = **min(euclideanDistance(centroid(x), row))
-			#for row in assignment:
-				#find mean of each cluster
+			# assignment = np.zeros(data.shape[0])
+			# for row in data:
+				# assignment[row] = **min(euclideanDistance(centroid(x), row))
+			# for row in assignment:
+				# find mean of each cluster
 					
 		
 		#store result from each randomStart in array	
