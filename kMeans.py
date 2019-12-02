@@ -43,12 +43,12 @@ while kClusters > 1:
 			centroids.append(data[index])
 		# List of minimum centroids for each datum (datum index -> centroid index)
 		distances = []
-		for dataindex, datum in enumerate(data):
+		for datum in data:
 			centdists = []
-			for centroidindex, centroid in enumerate(centroids):
+			for centroid in centroids:
 				centdists.append(euclidDistance(datum[0], datum[1], centroid[0], centroid[1]))
 			minindex = centdists.index(min(centdists))
-			distances.append(centdists)
+			distances.append({"datum": datum, "centroidindex": minindex, "distance": centdists[minindex])
 
 		# run algorithm until the centroids don't change or
 		# the max number of iterations has been spent
