@@ -38,6 +38,8 @@ while kClusters > 1:
 	# run 10 times with random initial centroids.
 	while randomStarts > 0:
 		centroidIndices = initialCentroids[randomStarts - 1]
+		#store new value for centroid indices
+		newCentroidIndices[]
 		centroids = []
 		for index in centroidIndices:
 			centroids.append(data[index])
@@ -48,8 +50,25 @@ while kClusters > 1:
 			for centroid in centroids:
 				centdists.append(euclidDistance(datum[0], datum[1], centroid[0], centroid[1]))
 			minindex = centdists.index(min(centdists))
+			#---what's the difference between minindex and centdists[minindex]---
 			distances.append({"datum": datum, "centroidindex": minindex, "distance": centdists[minindex]})
 
+
+		for i in kClusters:
+			#store each data point in respective cluster
+			inCluster[]
+			for x in data:
+				if distances["centroidindex"] == i:
+					inCluster[i].append(x)
+			#calculate new mean
+			newCentroidIndices[i] = np.mean(inCluster[i], axis=0)
+		
+		#not sure if this is the method but I have to run to work
+		if np.sub(centroidIndeces, newCentroidIndices) == 0
+			#stop the algorithm, calculate the sum of squared difference
+			#and store result to compare with other random starts.
+
+			
 		# run algorithm until the centroids don't change or
 		# the max number of iterations has been spent
 		# while isClustering(centroids, prevCentroids, iteration):
