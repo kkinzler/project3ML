@@ -1,5 +1,6 @@
 import numpy as np
 import math
+#import matplotlib.pyplot as plt
 
 
 #grab the data
@@ -29,17 +30,19 @@ def euclidDistance(x1, y1, x2, y2):
 while kClusters > 1:
 	# grab random data points for centroid of  each cluster
 	randomStarts = 10
-	# maxIter = 5000
+	# maxIter = 1000
 	poison = True	
 	initialCentroids = np.random.randint(low=0, high=dataLength,
 										 size=(randomStarts, kClusters))
 	print("kClusters: ", kClusters)	
-
+	
+	iterations = 0
+	newCentroidIndices = [[] for i in range(kClusters)]
+	tenRandomSolutions = [[] for i in range(0, 10)]
 	# run 10 times with random initial centroids.
 	while randomStarts > 0:
 		centroidIndices = initialCentroids[randomStarts - 1]
 		#store new value for centroid indices
-		newCentroidIndices[]
 		centroids = []
 		for index in centroidIndices:
 			centroids.append(data[index])
@@ -54,45 +57,34 @@ while kClusters > 1:
 			distances.append({"datum": datum, "centroidindex": minindex, "distance": centdists[minindex]})
 
 
-		for i in kClusters:
+		for i in range(kClusters):
 			#store each data point in respective cluster
-			inCluster[]
-			for x in data:
-				if distances["centroidindex"] == i:
-					inCluster[i].append(x)
+			inCluster = [[] for i in range(kClusters)]
+			for row in distances:
+				if row["centroidindex"] == i:
+					inCluster[i].append(row["datum"])
 			#calculate new mean
 			newCentroidIndices[i] = np.mean(inCluster[i], axis=0)
-		
-		#not sure if this is the method but I have to run to work
-		if np.sub(centroidIndeces, newCentroidIndices) == 0
-			#stop the algorithm, calculate the sum of squared difference
-			#and store result to compare with other random starts.
 
-			
-		# run algorithm until the centroids don't change or
-		# the max number of iterations has been spent
-		# while isClustering(centroids, prevCentroids, iteration):
-		while poison:
-			poison = False
-			# assignment = np.zeros(data.shape[0])
-			# for row in data:
-				# assignment[row] = **min(euclideanDistance(centroid(x), row))
-			# for row in assignment:
-				# find mean of each cluster
-					
-		
-		#store result from each randomStart in array	
-		randomStarts = randomStarts - 1
 
-	#store best solution from each randomStart in array for each number of clusters
-	kClusters = kClusters - 1
+		if (centroidIndices == newCentroidIndices) || maxIterations == iterations:
+			stop = True	
+			tenRandomSolutions.append(newCentroidIndices) 
+		else:
+			centroidIndices = newCentroidIndices
+	
+	for row in tenRandomSolutions:
+		for datum in data:
 
-#print the plots
+	for i in range(dataLength):
+		if iris.target[i] == 0:
+		c1 = pl.scatter(pca_2d[i,0],pca_2d[i,1],c='r',marker='+')
+		elif iris.target[i] == 1:
+		c2 = pl.scatter(pca_2d[i,0],pca_2d[i,1],c='g',marker='o')
+		elif iris.target[i] == 2:
+		c3 = pl.scatter(pca_2d[i,0],pca_2d[i,1],c='b',marker='*')
+	pl.legend([c1, c2, c3], ['Setosa', 'Versicolor','Virginica'])
+	pl.title('Iris dataset with 3 clusters and known outcomes')
+	pl.show()
 
-#TODO:
-#	1)calculate the sum of squared difference between each data point and centroid
-#	2)assign each data point to the centroid it is closest to
-#	3)recompute centroids for each cluster by taking average of all points in cluster	
-#	4)write method to check whether centroids have changed from last iteration
-#	5)store each 'randomStarts' solution and pick the smallest for each number of 'k'
-#	6)plot the initial points and the resulting cluster (easy peasy, look online)
+
