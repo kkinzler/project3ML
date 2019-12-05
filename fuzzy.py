@@ -10,7 +10,7 @@ data = np.loadtxt('GMM_data_fall2019.txt')
 #HYPER PARAMETERS(ish)
 kClusters     = 6
 maxIterations = 500
-randomStarts  = 4
+randomStarts  = 6
 m             = 2.0
 
 dataLength = data.shape[0]
@@ -83,10 +83,12 @@ def calcWCSS(data, membership, centroids):
 
 #need to think through how to hold the lowest sum of squares solution 
 bestWCSS = 1500.0
-bestMembership = []
 
-for starts in range(randomStarts):
 
+for starts in range(2, randomStarts + 1):
+	bestWCSS = math.inf
+	bestMembership = []
+	kClusters = starts
 	#store each clusters centroid on each iteration	
 	clusterCentroids = np.zeros((kClusters, 2),dtype=float)	
 
@@ -116,6 +118,7 @@ for starts in range(randomStarts):
 		#calculate which cluster each data point is a member of
 		membership = calcMembership(distanceToCentroids)	
 
+		'''
 		if iteration % 100 == 0:
 			iter = 0
 			for row in membership:
@@ -123,7 +126,7 @@ for starts in range(randomStarts):
 				iter += 1
 			pl.title('fuzzy c-mean cluster')
 			pl.show()
-
+		'''
 	#time to calculate the sum of square for the solution and save the best one
 	wcss = calcWCSS(data, membership, clusterCentroids)
 
@@ -131,13 +134,15 @@ for starts in range(randomStarts):
 		bestWCSS = wcss
 		bestMembership = membership.copy()
 
-
+	print("Model for " + str(starts) + " clusters")
+	print("Model error: " + str(wcss))
 	iter = 0
 	for row in bestMembership:
 		pl.scatter(data[iter,0],data[iter,1],c=color[np.argmax(row)],marker='+')
 		iter += 1
 	pl.title('fuzzy c-mean cluster')
 	pl.show()
+
 
 
 
